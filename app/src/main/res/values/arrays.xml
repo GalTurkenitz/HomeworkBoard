@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="subjects">
+        <item>מתמטיקה</item>
+        <item>אנגלית</item>
+        <item>עברית</item>
+        <item>היסטוריה</item>
+        <item>תנ\"ך</item>
+        <item>אזרחות</item>
+        <item>פיזיקה</item>
+        <item>הנדסת תוכנה</item>
+        <item>אחר</item>
+    </string-array>
+
+    <!-- אותה רשימה + "כל המקצועות" במקום הראשון, לסינון במסך הראשי -->
+    <string-array name="subjects_filter">
+        <item>כל המקצועות</item>
+        <item>מתמטיקה</item>
+        <item>אנגלית</item>
+        <item>עברית</item>
+        <item>היסטוריה</item>
+        <item>תנ\"ך</item>
+        <item>אזרחות</item>
+        <item>פיזיקה</item>
+        <item>הנדסת תוכנה</item>
+        <item>אחר</item>
+    </string-array>
+</resources>

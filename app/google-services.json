@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "656875316432",
+    "project_id": "galtu-school-apps",
+    "storage_bucket": "galtu-school-apps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656875316432:android:e1e593144a78e63c4a2ad5",
+        "android_client_info": {
+          "package_name": "com.galturkenitz.firebasestudents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiqkI1hxlqXFCEuDM5O6APl67-GJmRPu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656875316432:android:637222df9356ed044a2ad5",
+        "android_client_info": {
+          "package_name": "com.galturkenitz.homeworkboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiqkI1hxlqXFCEuDM5O6APl67-GJmRPu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

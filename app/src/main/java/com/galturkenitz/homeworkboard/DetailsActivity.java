@@ -3,23 +3,17 @@ package com.galturkenitz.homeworkboard;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
 // מסך פרטי משימה: מציג את המשימה בזמן אמת, מאפשר לסמן כבוצעה, לערוך ולמחוק
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends BaseActivity {
     private TextView tvDetails;
     private Button btnToggleDone, btnEdit, btnDelete;
 
@@ -31,17 +25,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_details);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        setTitle("פרטי משימה");
+        setupScreen(R.layout.activity_details, "פרטי משימה", true);
 
         tvDetails = findViewById(R.id.tvDetails);
         btnToggleDone = findViewById(R.id.btnToggleDone);
@@ -150,14 +134,5 @@ public class DetailsActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("ביטול", null)
                 .show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

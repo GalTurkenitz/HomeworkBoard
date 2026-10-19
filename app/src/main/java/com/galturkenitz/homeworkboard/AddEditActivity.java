@@ -2,7 +2,6 @@ package com.galturkenitz.homeworkboard;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,18 +11,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 // מסך הוספה / עריכה של משימה.
 // אם הגיע "id" ב-Intent - מצב עריכה (קוראים את המשימה ומעדכנים אותה), אחרת - משימה חדשה
-public class AddEditActivity extends AppCompatActivity {
+public class AddEditActivity extends BaseActivity {
     private Spinner spinnerSubject;
     private EditText etTitle, etDescription, etAddedBy;
     private Button btnDate, btnSave;
@@ -37,16 +30,7 @@ public class AddEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_edit);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        setupScreen(R.layout.activity_add_edit, "משימה חדשה", true);
 
         spinnerSubject = findViewById(R.id.spinnerSubject);
         etTitle = findViewById(R.id.etTitle);
@@ -82,8 +66,6 @@ public class AddEditActivity extends AppCompatActivity {
             setTitle("עריכת משימה");
             tvScreenTitle.setText("עריכת משימה");
             loadHomeworkForEdit();
-        } else {
-            setTitle("משימה חדשה");
         }
     }
 
@@ -151,9 +133,8 @@ public class AddEditActivity extends AppCompatActivity {
         if (!isInputValid()) {
             return;
         }
-        btnSave.setEnabled(false); // מונע שמירה כפולה בלחיצה מהירה
-
         String id = (editId != null) ? editId : fsDAO.generateNewId();
+        boolean isEdit = editId != null;
 
         fsDAO.createDocument(id,
                 spinnerSubject.getSelectedItem().toString(),
@@ -165,26 +146,19 @@ public class AddEditActivity extends AppCompatActivity {
                 new IFirestoreActionCallback() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(AddEditActivity.this,
-                                editId != null ? "המשימה עודכנה" : "המשימה נוספה", Toast.LENGTH_SHORT).show();
-                        finish();
+                        // השרת אישר את השמירה (מופיע ב-Logcat מתוך ה-DAO)
                     }
 
                     @Override
                     public void onFailure(String errorMessage) {
-                        btnSave.setEnabled(true);
-                        Toast.makeText(AddEditActivity.this, "שגיאה בשמירה: " + errorMessage, Toast.LENGTH_LONG).show();
+                        // getApplicationContext - כי המסך כבר נסגר
+                        Toast.makeText(getApplicationContext(), "שגיאה בשמירה: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
-    }
 
-    // חץ החזרה בסרגל העליון
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        // Firestore שומר קודם במכשיר ומסנכרן לשרת ברקע, כך שהמשימה מופיעה ברשימה מיד.
+        // לכן לא מחכים לאישור מהשרת (בלי אינטרנט זה היה נתקע), וסוגרים את המסך
+        Toast.makeText(this, isEdit ? "המשימה עודכנה" : "המשימה נוספה", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

@@ -1,73 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
 
-        <TextView
-            android:id="@+id/tvScreenTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="משימה חדשה"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="מקצוע:" />
-
-        <Spinner
-            android:id="@+id/spinnerSubject"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="מה המשימה? (לדוגמה: עמוד 45 תרגילים 1-10)"
-            android:inputType="text"
-            android:textDirection="rtl" />
+            <TextView
+                android:id="@+id/tvScreenTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="משימה חדשה"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="פירוט (לא חובה)"
-            android:inputType="textMultiLine"
-            android:minLines="2"
-            android:textDirection="rtl" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="מקצוע:" />
 
-        <EditText
-            android:id="@+id/etAddedBy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="השם שלך"
-            android:inputType="textPersonName"
-            android:textDirection="rtl" />
+            <Spinner
+                android:id="@+id/spinnerSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="בחירת תאריך הגשה" />
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="מה המשימה? (לדוגמה: עמוד 45 תרגילים 1-10)"
+                android:inputType="text"
+                android:textDirection="rtl" />
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="שמירה" />
-    </LinearLayout>
-</ScrollView>
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="פירוט (לא חובה)"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:textDirection="rtl" />
+
+            <EditText
+                android:id="@+id/etAddedBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="השם שלך"
+                android:inputType="textPersonName"
+                android:textDirection="rtl" />
+
+            <Button
+                android:id="@+id/btnDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="בחירת תאריך הגשה" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="שמירה" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -40,6 +40,12 @@
             android:text="סמן כבוצע ✔" />
 
         <Button
+            android:id="@+id/btnImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="תמונות למשימה" />
+
+        <Button
             android:id="@+id/btnEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

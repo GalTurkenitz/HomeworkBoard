@@ -46,6 +46,16 @@ public class DetailsActivity extends BaseActivity {
             }
         });
 
+        // שלב ג': מסך התמונות של המשימה
+        findViewById(R.id.btnImages).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailsActivity.this, ImagesActivity.class);
+                intent.putExtra("id", homeworkId);
+                startActivity(intent);
+            }
+        });
+
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

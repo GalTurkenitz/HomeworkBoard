@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- דרך 1: גלריה + URL -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="דרך 1: תמונה מהגלריה (נשמר ה-URL)"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="בחירת תמונה מהגלריה" />
+
+            <ImageView
+                android:id="@+id/ivGallery"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="תמונה מהגלריה"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tvGalleryUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="טוען..."
+                android:textDirection="ltr"
+                android:textSize="12sp" />
+
+            <!-- דרך 2: Base64 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="דרך 2: תמונה כ-Base64 (נשמרת בתוך המסמך)"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnPickBase64"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="בחירת תמונה והמרה ל-Base64" />
+
+            <ImageView
+                android:id="@+id/ivBase64"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="תמונה מ-Base64"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/tvBase64Info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="טוען..."
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

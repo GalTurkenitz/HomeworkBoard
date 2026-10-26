@@ -1,5 +1,6 @@
 package com.galturkenitz.homeworkboard;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,7 +26,7 @@ import java.io.InputStream;
 public class ImagesActivity extends BaseActivity {
     private ImageView ivGallery, ivBase64;
     private TextView tvGalleryUrl, tvBase64Info;
-    private Button btnPickGallery, btnPickBase64;
+    private Button btnPickGallery, btnPickBase64, btnTakePhoto;
 
     private ImageDAO imageDAO;
     private String homeworkId;
@@ -52,6 +53,18 @@ public class ImagesActivity extends BaseActivity {
                 }
             });
 
+    // צילום במצלמה: TakePicturePreview מחזיר Bitmap ישירות, בלי לשמור קובץ בגלריה
+    // (התמונה שחוזרת קטנה ובאיכות נמוכה יותר - כמו שהמורה אמרה)
+    private final ActivityResultLauncher<Void> cameraLauncher =
+            registerForActivityResult(new ActivityResultContracts.TakePicturePreview(), new ActivityResultCallback<Bitmap>() {
+                @Override
+                public void onActivityResult(Bitmap bitmap) {
+                    if (bitmap != null) {
+                        compressAndSaveBitmap(bitmap);
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +76,7 @@ public class ImagesActivity extends BaseActivity {
         tvBase64Info = findViewById(R.id.tvBase64Info);
         btnPickGallery = findViewById(R.id.btnPickGallery);
         btnPickBase64 = findViewById(R.id.btnPickBase64);
+        btnTakePhoto = findViewById(R.id.btnTakePhoto);
 
         imageDAO = new ImageDAO();
         homeworkId = getIntent().getStringExtra("id");
@@ -82,6 +96,27 @@ public class ImagesActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 base64Launcher.launch("image/*");
+            }
+        });
+
+        // מסך Base64 לפי מצגת 05.04 (צילום / גלריה -> שמירה -> קריאה)
+        findViewById(R.id.btnOpenBase64Screen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ImagesActivity.this, Base64ImageActivity.class);
+                intent.putExtra("id", homeworkId);
+                startActivity(intent);
+            }
+        });
+
+        btnTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    cameraLauncher.launch(null);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(ImagesActivity.this, "לא נמצאה אפליקציית מצלמה", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -156,7 +191,7 @@ public class ImagesActivity extends BaseActivity {
             @Override
             public void run() {
                 Bitmap bitmap = decodeSampledBitmap(uri);
-                String base64 = (bitmap == null) ? null : ImageUtils.convertBitmapToString(bitmap);
+                String base64 = (bitmap == null) ? null : ImageUtils.convertBitmapToBase64(bitmap);
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -184,6 +219,26 @@ public class ImagesActivity extends BaseActivity {
         }).start();
     }
 
+    // צילום -> כיווץ ל-JPEG (ImageUtils) -> Base64 -> שמירה במסמך ב-Firestore
+    private void compressAndSaveBitmap(Bitmap bitmap) {
+        String base64 = ImageUtils.convertBitmapToBase64(bitmap);
+        if (base64 == null) {
+            Toast.makeText(this, "לא הצלחתי לכווץ את התמונה", Toast.LENGTH_LONG).show();
+            return;
+        }
+        imageDAO.saveBase64Image(homeworkId, base64, new IFirestoreActionCallback() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(ImagesActivity.this, "שגיאה בשמירה: " + errorMessage, Toast.LENGTH_LONG).show();
+            }
+        });
+        Toast.makeText(this, "התמונה צולמה, כווצה ונשמרה", Toast.LENGTH_SHORT).show();
+    }
+
     // המרה חזרה: מחרוזת Base64 מה-Firestore -> Bitmap -> ImageView
     private void showBase64Image(String base64Image) {
         if (base64Image == null) {
@@ -191,7 +246,7 @@ public class ImagesActivity extends BaseActivity {
             ivBase64.setImageDrawable(null);
             return;
         }
-        Bitmap bitmap = ImageUtils.convertBase64StringToBitmap(base64Image);
+        Bitmap bitmap = ImageUtils.convertBase64ToBitmap(base64Image);
         ivBase64.setImageBitmap(bitmap);
         tvBase64Info.setText("נשמר במסמך: " + base64Image.length() + " תווים");
     }

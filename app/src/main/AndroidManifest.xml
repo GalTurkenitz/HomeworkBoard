@@ -15,6 +15,10 @@
         android:theme="@style/Theme.HomeworkBoard"
         tools:targetApi="31">
         <activity
+            android:name=".Base64ImageActivity"
+            android:exported="false"
+            android:parentActivityName=".ImagesActivity" />
+        <activity
             android:name=".ImagesActivity"
             android:exported="false"
             android:parentActivityName=".DetailsActivity" />

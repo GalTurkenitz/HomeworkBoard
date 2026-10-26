@@ -72,6 +72,19 @@
                 android:layout_height="wrap_content"
                 android:text="בחירת תמונה והמרה ל-Base64" />
 
+            <!-- לפי ההודעה של המורה: צילום -> כיווץ -> שמירה -> שליפה, בלי לשמור בגלריה -->
+            <Button
+                android:id="@+id/btnTakePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="צילום תמונה במצלמה" />
+
+            <Button
+                android:id="@+id/btnOpenBase64Screen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="מסך Base64 (מצגת 05.04)" />
+
             <ImageView
                 android:id="@+id/ivBase64"
                 android:layout_width="match_parent"

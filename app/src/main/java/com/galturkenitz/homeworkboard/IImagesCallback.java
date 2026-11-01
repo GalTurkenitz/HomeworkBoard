@@ -1,6 +1,6 @@
 package com.galturkenitz.homeworkboard;
 
-// מחזיר ל-Activity את שתי התמונות של משימה (כל אחת יכולה להיות null אם עוד לא נשמרה)
+// מחזיר ל-Activity את תמונת ה-Base64 של המשימה (null אם עוד לא נשמרה)
 public interface IImagesCallback {
-    void onImagesReceived(String galleryUrl, String base64Image);
+    void onImageReceived(String base64Image);
 }

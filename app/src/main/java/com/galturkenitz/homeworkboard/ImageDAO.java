@@ -25,8 +25,7 @@ public class ImageDAO {
     private static final String COLLECTION_NAME = "homework_images";
     private static final String TAG = "IMAGE_DAO";
 
-    public static final String FIELD_GALLERY_URL = "galleryUrl"; // דרך 1: URL של התמונה מהגלריה
-    public static final String FIELD_BASE64 = "base64Image";     // דרך 2: התמונה עצמה כמחרוזת Base64
+    public static final String FIELD_BASE64 = "base64Image"; // התמונה עצמה כמחרוזת Base64
 
     private ListenerRegistration listenerRegistration;
 
@@ -54,18 +53,13 @@ public class ImageDAO {
         });
     }
 
-    // דרך 1: שמירת ה-URL של התמונה שנבחרה מהגלריה
-    public void saveGalleryUrl(String homeworkId, String url, IFirestoreActionCallback callback) {
-        saveField(homeworkId, FIELD_GALLERY_URL, url, callback);
-    }
-
-    // דרך 2: שמירת התמונה כמחרוזת Base64 ישירות במסמך
+    // שמירת התמונה כמחרוזת Base64 ישירות במסמך
     public void saveBase64Image(String homeworkId, String base64, IFirestoreActionCallback callback) {
         saveField(homeworkId, FIELD_BASE64, base64, callback);
     }
 
     // שליפה + האזנה לשינויים: המסך מתעדכן מיד אחרי שמירה (וגם אם מישהו אחר החליף תמונה)
-    public void listenToImages(String homeworkId, IImagesCallback callback) {
+    public void listenToImage(String homeworkId, IImagesCallback callback) {
         stopListening();
         DocumentReference docRef = FirebaseFirestore.getInstance()
                 .collection(COLLECTION_NAME).document(homeworkId);
@@ -78,10 +72,10 @@ public class ImageDAO {
                     return;
                 }
                 if (value == null || !value.exists()) {
-                    callback.onImagesReceived(null, null);
+                    callback.onImageReceived(null);
                     return;
                 }
-                callback.onImagesReceived(value.getString(FIELD_GALLERY_URL), value.getString(FIELD_BASE64));
+                callback.onImageReceived(value.getString(FIELD_BASE64));
             }
         });
     }
